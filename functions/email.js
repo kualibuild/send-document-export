@@ -51,15 +51,18 @@ exports.handler = async (event, context) => {
 
   if (!email) return { statusCode: 400, body: 'No Email Provided' }
 
-  console.log({ DOCUMENT_HOST, docId })
-
-  const { data } = await axios.get(
-    `${DOCUMENT_HOST}/app/api/v0/apps/document/${docId}/genarchive?options=document`,
-    {
-      headers: { Authorization: event.headers.authorization },
-      responseType: 'stream'
-    }
-  )
+  const { data } = await axios
+    .get(
+      `${DOCUMENT_HOST}/app/api/v0/apps/document/${docId}/genarchive?options=document`,
+      {
+        headers: { Authorization: event.headers.authorization },
+        responseType: 'stream'
+      }
+    )
+    .catch(err => {
+      console.log(err.response)
+      throw err
+    })
 
   const attachments = [
     {
