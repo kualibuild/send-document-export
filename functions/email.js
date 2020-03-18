@@ -23,7 +23,7 @@ exports.handler = async (event, context) => {
     ? {
         domainName: SMTP_DKIM_DOMAIN,
         keySelector: SMTP_DKIM_KEY_SELECTOR,
-        privateKey: SMTP_DKIM_PRIVATE_KEY
+        privateKey: SMTP_DKIM_PRIVATE_KEY.replace(/\\n/g, '\n')
       }
     : undefined
 
@@ -33,6 +33,11 @@ exports.handler = async (event, context) => {
         pass: SMTP_PASS
       }
     : undefined
+
+  console.log({
+    host: SMTP_HOST,
+    port: Number(SMTP_PORT)
+  })
 
   const transporter = nodemailer.createTransport({
     host: SMTP_HOST,
