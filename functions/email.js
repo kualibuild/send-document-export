@@ -39,6 +39,14 @@ const transporter = nodemailer.createTransport({
   ignoreTLS: DOCUMENT_HOST === 'https://monsters-local.kuali.co'
 })
 
+console.log({
+  host: SMTP_HOST,
+  port: Number(SMTP_PORT),
+  auth: smtpAuth ? 'has auth' : null,
+  dkim: smtpDkim ? 'has dkim config' : null,
+  ignoreTLS: DOCUMENT_HOST === 'https://monsters-local.kuali.co'
+})
+
 exports.handler = async (event, context) => {
   context.callbackWaitsForEmptyEventLoop = false
   const body = JSON.parse(event.body)
@@ -51,18 +59,13 @@ exports.handler = async (event, context) => {
 
   if (!email) return { statusCode: 400, body: 'No Email Provided' }
 
-  const { data } = await axios
-    .get(
-      `${DOCUMENT_HOST}/app/api/v0/apps/document/${docId}/genarchive?options=document`,
-      {
-        headers: { Authorization: event.headers.authorization },
-        responseType: 'stream'
-      }
-    )
-    .catch(err => {
-      console.log(err.response)
-      throw err
-    })
+  const { data } = await axios.get(
+    `${DOCUMENT_HOST}/app/api/v0/apps/document/${docId}/genarchive?options=document`,
+    {
+      headers: { Authorization: event.headers.authorization },
+      responseType: 'stream'
+    }
+  )
 
   const attachments = [
     {
