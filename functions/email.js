@@ -47,15 +47,22 @@ console.log({
   ignoreTLS: DOCUMENT_HOST === 'https://monsters-local.kuali.co'
 })
 
+console.log(SMTP_DKIM_PRIVATE_KEY.slice(0, 50))
+
 exports.handler = async (event, context) => {
   context.callbackWaitsForEmptyEventLoop = false
   const body = JSON.parse(event.body)
 
   const docId = body.formId
   const email = body[EMAIL_KEY]
-  const subject = 'Document Export'
-  const text = 'Attached is your document'
-  const html = '<p>Attached is your document</p>'
+  const subject = 'Continuity Plan Received'
+  const text = `Thank you for submitting your continuity plan.
+
+Attached below you’ll find a copy of the submitted plan.
+
+Thank you!`
+  const html =
+    '<p>Thank you for submitting your continuity plan.</p><p>Attached below you’ll find a copy of the submitted plan.</p><p>Thank you!</p>'
 
   if (!email) return { statusCode: 400, body: 'No Email Provided' }
 
