@@ -6,6 +6,14 @@ const nodemailer = require('nodemailer')
 exports.handler = async (event, context) => {
   context.callbackWaitsForEmptyEventLoop = false
 
+  const kualiHost = event.headers['x-kuali-origin']
+
+  console.log({ kualiHost })
+
+  // if (!kualiHost) {
+  //   return { statusCode: 400, body: 'Missing x-kuali-origin header' }
+  // }
+
   const {
     DOCUMENT_HOST = 'https://monsters-local.kuali.co',
     EMAIL_KEY = 'Submitter-Email',
