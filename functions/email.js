@@ -39,13 +39,12 @@ const transporter = nodemailer.createTransport({
   ignoreTLS: DOCUMENT_HOST === 'https://monsters-local.kuali.co'
 })
 
-console.log({
-  SMTP_DKIM_PRIVATE_KEY: Buffer.from(smtpDkim.privateKey.slice(0, 50)).toString(
-    'base64'
-  )
-})
-
 exports.handler = async (event, context) => {
+  console.log({
+    SMTP_DKIM_PRIVATE_KEY: Buffer.from(
+      smtpDkim.privateKey.slice(0, 50)
+    ).toString('base64')
+  })
   context.callbackWaitsForEmptyEventLoop = false
   const body = JSON.parse(event.body)
 
