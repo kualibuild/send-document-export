@@ -68,7 +68,7 @@ Thank you!`
 
   const attachments = [
     {
-      filename: 'document.txt',
+      filename: 'continuity-plan.txt',
       content: data
     }
   ]
