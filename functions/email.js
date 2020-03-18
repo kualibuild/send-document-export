@@ -8,14 +8,11 @@ exports.handler = async (event, context) => {
 
   const kualiHost = event.headers['x-kuali-origin']
 
-  console.log({ kualiHost })
-
-  // if (!kualiHost) {
-  //   return { statusCode: 400, body: 'Missing x-kuali-origin header' }
-  // }
+  if (!kualiHost) {
+    return { statusCode: 400, body: 'Missing x-kuali-origin header' }
+  }
 
   const {
-    DOCUMENT_HOST = 'https://monsters-local.kuali.co',
     EMAIL_KEY = 'Submitter-Email',
     FROM = 'Kuali Notifications <no-reply@kuali.co>',
     SMTP_HOST = 'localhost',
@@ -49,7 +46,7 @@ exports.handler = async (event, context) => {
     secure: SMTP_SECURE === 'true',
     auth: smtpAuth,
     dkim: smtpDkim,
-    ignoreTLS: DOCUMENT_HOST === 'https://monsters-local.kuali.co'
+    ignoreTLS: kualiHost === 'https://monsters-local.kuali.co'
   })
   const body = JSON.parse(event.body)
 
@@ -67,7 +64,7 @@ Thank you!`
   if (!email) return { statusCode: 400, body: 'No Email Provided' }
 
   const { data } = await axios.get(
-    `${DOCUMENT_HOST}/app/api/v0/apps/document/${docId}/genarchive?options=document`,
+    `${kualiHost}/app/api/v0/apps/document/${docId}/genarchive?options=document`,
     {
       headers: { Authorization: event.headers.authorization },
       responseType: 'stream'
