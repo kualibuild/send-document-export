@@ -3,35 +3,37 @@
 const { default: axios } = require('axios')
 const nodemailer = require('nodemailer')
 
-const {
-  DOCUMENT_HOST = 'https://monsters-local.kuali.co',
-  EMAIL_KEY = 'Submitter-Email',
-  FROM = 'Kuali Notifications <no-reply@kuali.co>',
-  SMTP_HOST = 'localhost',
-  SMTP_PORT = '1025',
-  SMTP_USER,
-  SMTP_PASS,
-  SMTP_DKIM_DOMAIN,
-  SMTP_DKIM_KEY_SELECTOR,
-  SMTP_DKIM_PRIVATE_KEY
-} = process.env
-
-const smtpDkim = SMTP_DKIM_PRIVATE_KEY
-  ? {
-      domainName: SMTP_DKIM_DOMAIN,
-      keySelector: SMTP_DKIM_KEY_SELECTOR,
-      privateKey: SMTP_DKIM_PRIVATE_KEY.replace(/\\n/g, '\n')
-    }
-  : undefined
-
-const smtpAuth = SMTP_USER
-  ? {
-      user: SMTP_USER,
-      pass: SMTP_PASS
-    }
-  : undefined
-
 exports.handler = async (event, context) => {
+  context.callbackWaitsForEmptyEventLoop = false
+
+  const {
+    DOCUMENT_HOST = 'https://monsters-local.kuali.co',
+    EMAIL_KEY = 'Submitter-Email',
+    FROM = 'Kuali Notifications <no-reply@kuali.co>',
+    SMTP_HOST = 'localhost',
+    SMTP_PORT = '1025',
+    SMTP_USER,
+    SMTP_PASS,
+    SMTP_DKIM_DOMAIN,
+    SMTP_DKIM_KEY_SELECTOR,
+    SMTP_DKIM_PRIVATE_KEY
+  } = process.env
+
+  const smtpDkim = SMTP_DKIM_PRIVATE_KEY
+    ? {
+        domainName: SMTP_DKIM_DOMAIN,
+        keySelector: SMTP_DKIM_KEY_SELECTOR,
+        privateKey: SMTP_DKIM_PRIVATE_KEY
+      }
+    : undefined
+
+  const smtpAuth = SMTP_USER
+    ? {
+        user: SMTP_USER,
+        pass: SMTP_PASS
+      }
+    : undefined
+
   const transporter = nodemailer.createTransport({
     host: SMTP_HOST,
     port: Number(SMTP_PORT),
@@ -39,12 +41,6 @@ exports.handler = async (event, context) => {
     dkim: smtpDkim,
     ignoreTLS: DOCUMENT_HOST === 'https://monsters-local.kuali.co'
   })
-  console.log({
-    SMTP_DKIM_PRIVATE_KEY: Buffer.from(
-      smtpDkim.privateKey.slice(0, 50)
-    ).toString('base64')
-  })
-  context.callbackWaitsForEmptyEventLoop = false
   const body = JSON.parse(event.body)
 
   const docId = body.formId
