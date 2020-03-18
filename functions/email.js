@@ -31,15 +31,14 @@ const smtpAuth = SMTP_USER
     }
   : undefined
 
-const transporter = nodemailer.createTransport({
-  host: SMTP_HOST,
-  port: Number(SMTP_PORT),
-  auth: smtpAuth,
-  dkim: smtpDkim,
-  ignoreTLS: DOCUMENT_HOST === 'https://monsters-local.kuali.co'
-})
-
 exports.handler = async (event, context) => {
+  const transporter = nodemailer.createTransport({
+    host: SMTP_HOST,
+    port: Number(SMTP_PORT),
+    auth: smtpAuth,
+    dkim: smtpDkim,
+    ignoreTLS: DOCUMENT_HOST === 'https://monsters-local.kuali.co'
+  })
   console.log({
     SMTP_DKIM_PRIVATE_KEY: Buffer.from(
       smtpDkim.privateKey.slice(0, 50)
@@ -84,6 +83,8 @@ Thank you!`
     html,
     attachments
   })
+
+  transporter.close()
 
   return { statusCode: 200, body: 'done' }
 }
