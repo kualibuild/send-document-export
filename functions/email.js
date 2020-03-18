@@ -42,8 +42,8 @@ const transporter = nodemailer.createTransport({
 console.log({
   host: SMTP_HOST,
   port: Number(SMTP_PORT),
-  auth: smtpAuth ? 'has auth' : null,
-  dkim: smtpDkim ? 'has dkim config' : null,
+  auth: smtpAuth ? { ...smtpAuth, pass: '[redacted]' } : null,
+  dkim: smtpDkim ? { ...smtpDkim, privateKey: '[redacted]' } : null,
   ignoreTLS: DOCUMENT_HOST === 'https://monsters-local.kuali.co'
 })
 
