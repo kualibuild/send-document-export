@@ -51,6 +51,8 @@ exports.handler = async (event, context) => {
 
   if (!email) return { statusCode: 400, body: 'No Email Provided' }
 
+  console.log({ DOCUMENT_HOST, docId })
+
   const { data } = await axios.get(
     `${DOCUMENT_HOST}/app/api/v0/apps/document/${docId}/genarchive?options=document`,
     {
