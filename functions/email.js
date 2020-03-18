@@ -12,6 +12,7 @@ exports.handler = async (event, context) => {
     FROM = 'Kuali Notifications <no-reply@kuali.co>',
     SMTP_HOST = 'localhost',
     SMTP_PORT = '1025',
+    SMTP_SECURE,
     SMTP_USER,
     SMTP_PASS,
     SMTP_DKIM_DOMAIN,
@@ -37,6 +38,7 @@ exports.handler = async (event, context) => {
   const transporter = nodemailer.createTransport({
     host: SMTP_HOST,
     port: Number(SMTP_PORT),
+    secure: SMTP_SECURE === 'true',
     auth: smtpAuth,
     dkim: smtpDkim,
     ignoreTLS: DOCUMENT_HOST === 'https://monsters-local.kuali.co'
