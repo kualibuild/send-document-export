@@ -1,0 +1,14 @@
+{
+  "name": "build-ready",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/nodemailer": "^6.4.0",
+    "netlify-cli": "^2.40.0"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "nodemailer": "^6.4.5"
+  }
+}

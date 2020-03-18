@@ -1,0 +1,10 @@
+.DS_Store
+*.log*
+node_modules
+coverage
+config/local*
+.env
+!.env.example
+.cache
+dist
+build
