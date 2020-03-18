@@ -20,7 +20,7 @@ const smtpDkim = SMTP_DKIM_PRIVATE_KEY
   ? {
       domainName: SMTP_DKIM_DOMAIN,
       keySelector: SMTP_DKIM_KEY_SELECTOR,
-      privateKey: SMTP_DKIM_PRIVATE_KEY.replace(/\\\\/g, '\\')
+      privateKey: SMTP_DKIM_PRIVATE_KEY.replace(/\\n/g, '\n')
     }
   : undefined
 
