@@ -20,7 +20,7 @@ const smtpDkim = SMTP_DKIM_PRIVATE_KEY
   ? {
       domainName: SMTP_DKIM_DOMAIN,
       keySelector: SMTP_DKIM_KEY_SELECTOR,
-      privateKey: SMTP_DKIM_PRIVATE_KEY
+      privateKey: SMTP_DKIM_PRIVATE_KEY.replace(/\\\\/g, '\\')
     }
   : undefined
 
@@ -46,8 +46,6 @@ console.log({
   dkim: smtpDkim ? { ...smtpDkim, privateKey: '[redacted]' } : null,
   ignoreTLS: DOCUMENT_HOST === 'https://monsters-local.kuali.co'
 })
-
-console.log(SMTP_DKIM_PRIVATE_KEY.slice(0, 50))
 
 exports.handler = async (event, context) => {
   context.callbackWaitsForEmptyEventLoop = false
