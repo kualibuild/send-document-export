@@ -34,11 +34,6 @@ exports.handler = async (event, context) => {
       }
     : undefined
 
-  console.log({
-    host: SMTP_HOST,
-    port: Number(SMTP_PORT)
-  })
-
   const transporter = nodemailer.createTransport({
     host: SMTP_HOST,
     port: Number(SMTP_PORT),
