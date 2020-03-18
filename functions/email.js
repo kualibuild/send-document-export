@@ -47,6 +47,12 @@ console.log({
   ignoreTLS: DOCUMENT_HOST === 'https://monsters-local.kuali.co'
 })
 
+console.log({
+  SMTP_DKIM_PRIVATE_KEY: Buffer.from(
+    SMTP_DKIM_PRIVATE_KEY.slice(0, 50)
+  ).toString('base64')
+})
+
 exports.handler = async (event, context) => {
   context.callbackWaitsForEmptyEventLoop = false
   const body = JSON.parse(event.body)
