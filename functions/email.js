@@ -4,7 +4,7 @@ const { default: axios } = require('axios')
 const nodemailer = require('nodemailer')
 
 const {
-  HOST = 'https://monsters-local.kuali.co',
+  DOCUMENT_HOST = 'https://monsters-local.kuali.co',
   EMAIL_KEY = 'Submitter-Email',
   FROM = 'Kuali Notifications <no-reply@kuali.co>',
   SMTP_HOST = 'localhost',
@@ -36,7 +36,7 @@ const transporter = nodemailer.createTransport({
   port: Number(SMTP_PORT),
   auth: smtpAuth,
   dkim: smtpDkim,
-  ignoreTLS: HOST === 'https://monsters-local.kuali.co'
+  ignoreTLS: DOCUMENT_HOST === 'https://monsters-local.kuali.co'
 })
 
 exports.handler = async (event, context) => {
@@ -52,7 +52,7 @@ exports.handler = async (event, context) => {
   if (!email) return { statusCode: 400, body: 'No Email Provided' }
 
   const { data } = await axios.get(
-    `${HOST}/app/api/v0/apps/document/${docId}/genarchive?options=document`,
+    `${DOCUMENT_HOST}/app/api/v0/apps/document/${docId}/genarchive?options=document`,
     {
       headers: { Authorization: event.headers.authorization },
       responseType: 'stream'
