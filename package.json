@@ -9,6 +9,6 @@
   },
   "dependencies": {
     "axios": "^0.19.2",
-    "nodemailer": "^6.4.5"
+    "nodemailer": "^6.4.16"
   }
 }
