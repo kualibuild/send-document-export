@@ -1,0 +1,20 @@
+version: 2
+registries:
+  npm.pkg.github.com:
+    type: npm-registry
+    url: https://npm.pkg.github.com/
+    username: 'npm.pkg.github.com'
+    password: '${{secrets.KUALIBUILD_NPM_TOKEN}}'
+updates:
+  - package-ecosystem: npm
+    directory: '/'
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 99
+    registries:
+      - npm.pkg.github.com
+  - package-ecosystem: github-actions
+    directory: '/'
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 99
