@@ -10,6 +10,8 @@ updates:
     directory: '/'
     schedule:
       interval: weekly
+      day: 'sunday'
+      time: '24:00'
     open-pull-requests-limit: 99
     registries:
       - npm.pkg.github.com
@@ -17,4 +19,6 @@ updates:
     directory: '/'
     schedule:
       interval: weekly
+      day: 'sunday'
+      time: '24:00'
     open-pull-requests-limit: 99
